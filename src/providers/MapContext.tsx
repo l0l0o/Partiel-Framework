@@ -2,6 +2,11 @@
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
+interface RouteInfo {
+  duration: number; // en secondes
+  distance: number; // en mètres
+}
+
 interface IMapContext {
   startCoords: [number, number] | null;
   setStartCoords: React.Dispatch<React.SetStateAction<[number, number] | null>>;
@@ -9,6 +14,10 @@ interface IMapContext {
   setEndCoords: React.Dispatch<React.SetStateAction<[number, number] | null>>;
   routeRequested: boolean;
   setRouteRequested: React.Dispatch<React.SetStateAction<boolean>>;
+  routeInfo: RouteInfo | null;
+  setRouteInfo: React.Dispatch<React.SetStateAction<RouteInfo | null>>;
+  avoidTolls: boolean;
+  setAvoidTolls: React.Dispatch<React.SetStateAction<boolean>>;
   triggerRoute: () => void;
 }
 
@@ -22,6 +31,8 @@ export const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [startCoords, setStartCoords] = useState<[number, number] | null>(null);
   const [endCoords, setEndCoords] = useState<[number, number] | null>(null);
   const [routeRequested, setRouteRequested] = useState<boolean>(false);
+  const [routeInfo, setRouteInfo] = useState<RouteInfo | null>(null);
+  const [avoidTolls, setAvoidTolls] = useState<boolean>(false);
 
   const triggerRoute = () => {
     setRouteRequested(true);
@@ -36,6 +47,10 @@ export const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
         setEndCoords,
         routeRequested,
         setRouteRequested,
+        routeInfo,
+        setRouteInfo,
+        avoidTolls,
+        setAvoidTolls,
         triggerRoute,
       }}
     >
